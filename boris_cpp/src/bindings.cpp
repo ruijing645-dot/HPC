@@ -44,6 +44,9 @@ PYBIND11_MODULE(boris_cpp, module) {
     module.def("push",
                static_cast<void (*)(boris::Particle&, double, const boris::UniformMesh&)>(&boris::push),
                py::arg("particle"), py::arg("dt"), py::arg("mesh"));
+    module.def("push",
+               static_cast<void (*)(boris::Particle&, double, boris::Vec3, boris::Vec3)>(&boris::push),
+               py::arg("particle"), py::arg("dt"), py::arg("electric"), py::arg("magnetic"));
     module.def("norm", &boris::norm);
 
     py::class_<boris::PeriodicGrid>(module, "PeriodicGrid")

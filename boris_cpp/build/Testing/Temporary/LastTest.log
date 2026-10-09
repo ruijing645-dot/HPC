@@ -1,23 +1,98 @@
-Start testing: Oct 09 12:05 CEST
+Start testing: Oct 09 12:14 CEST
 ----------------------------------------------------------
-1/1 Testing: python_boris_tests
-1/1 Test: python_boris_tests
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_boris.py"
+1/6 Testing: test_01_boris_pusher
+1/6 Test: test_01_boris_pusher
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_01_boris_pusher.py"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"python_boris_tests" start time: Oct 09 12:05 CEST
+"test_01_boris_pusher" start time: Oct 09 12:14 CEST
 Output:
 ----------------------------------------------------------
-........
+...
 ----------------------------------------------------------------------
-Ran 8 tests in 0.028s
+Ran 3 tests in 0.001s
 
 OK
 <end of output>
-Test time =   0.11 sec
+Test time =   0.09 sec
 ----------------------------------------------------------
 Test Passed.
-"python_boris_tests" end time: Oct 09 12:05 CEST
-"python_boris_tests" time elapsed: 00:00:00
+"test_01_boris_pusher" end time: Oct 09 12:14 CEST
+"test_01_boris_pusher" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 09 12:05 CEST
+2/6 Testing: test_02_grid_field_push
+2/6 Test: test_02_grid_field_push
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.py"
+Directory: /home/ruijing/M2/HPC/boris_cpp/build
+"test_02_grid_field_push" start time: Oct 09 12:14 CEST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_02_grid_field_push" end time: Oct 09 12:14 CEST
+"test_02_grid_field_push" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/6 Testing: test_03_cic
+3/6 Test: test_03_cic
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.py"
+Directory: /home/ruijing/M2/HPC/boris_cpp/build
+"test_03_cic" start time: Oct 09 12:14 CEST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_03_cic" end time: Oct 09 12:14 CEST
+"test_03_cic" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/6 Testing: test_04_prediction_first
+4/6 Test: test_04_prediction_first
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.py"
+Directory: /home/ruijing/M2/HPC/boris_cpp/build
+"test_04_prediction_first" start time: Oct 09 12:14 CEST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_04_prediction_first" end time: Oct 09 12:14 CEST
+"test_04_prediction_first" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/6 Testing: test_05_prediction_second
+5/6 Test: test_05_prediction_second
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.py"
+Directory: /home/ruijing/M2/HPC/boris_cpp/build
+"test_05_prediction_second" start time: Oct 09 12:14 CEST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_05_prediction_second" end time: Oct 09 12:14 CEST
+"test_05_prediction_second" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/6 Testing: test_06_correction
+6/6 Test: test_06_correction
+Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.py"
+Directory: /home/ruijing/M2/HPC/boris_cpp/build
+"test_06_correction" start time: Oct 09 12:14 CEST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_06_correction" end time: Oct 09 12:14 CEST
+"test_06_correction" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 12:14 CEST

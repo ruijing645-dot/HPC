@@ -1,2 +1,8 @@
 python_boris_tests 9 0.0118341
+test_01_boris_pusher 2 0.0450495
+test_02_grid_field_push 2 0.00860904
+test_03_cic 2 0.00953697
+test_04_prediction_first 2 0.00937525
+test_05_prediction_second 2 0.00905627
+test_06_correction 2 0.0089693
 ---
