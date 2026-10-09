@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/ruijing/M2/HPC/boris_cpp/build",
+  "command": "/usr/bin/c++ -Dboris_cpp_EXPORTS -I/home/ruijing/M2/HPC/boris_cpp/include -isystem /usr/include/python3.14 -isystem /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include -std=gnu++20 -fPIC -fvisibility=hidden -flto=auto -fno-fat-lto-objects -o CMakeFiles/boris_cpp.dir/src/bindings.cpp.o -c /home/ruijing/M2/HPC/boris_cpp/src/bindings.cpp",
+  "file": "/home/ruijing/M2/HPC/boris_cpp/src/bindings.cpp",
+  "output": "CMakeFiles/boris_cpp.dir/src/bindings.cpp.o"
+}
+]

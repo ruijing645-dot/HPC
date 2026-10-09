@@ -33,5 +33,66 @@ class BorisTests(unittest.TestCase):
         self.assertAlmostEqual(particle.velocity.x, -10.0)
 
 
+class PredictionTests(unittest.TestCase):
+    def make_grid(self):
+        return boris.PeriodicGrid(boris.Vec3(0.0, 0.0, 0.0), boris.Vec3(4.0, 4.0, 4.0), (4, 4, 4))
+
+    def test_constant_fields_remain_unchanged(self):
+        grid = self.make_grid()
+        state = boris.PredictionInput()
+        state.electric = [boris.Vec3(1.0, -2.0, 0.5) for _ in range(64)]
+        state.magnetic = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        result = boris.predict_first(grid, state, 0.1)
+        for field in result.magnetic_next:
+            self.assertAlmostEqual(field.x, 0.0, places=12)
+            self.assertAlmostEqual(field.y, 0.0, places=12)
+            self.assertAlmostEqual(field.z, 0.0, places=12)
+
+    def test_periodic_particle_push_and_deposition(self):
+        grid = self.make_grid()
+        state = boris.PredictionInput()
+        state.electric = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.magnetic = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.particles = [boris.Particle(boris.Vec3(3.9, 1.0, 1.0), boris.Vec3(2.0, 0.0, 0.0), 1.0, 1.0)]
+        result = boris.predict_first(grid, state, 0.2)
+        particle = result.particles_next[0]
+        self.assertTrue(particle.alive)
+        self.assertAlmostEqual(particle.position.x, 0.3, places=12)
+        self.assertAlmostEqual(sum(result.density_next), 1.0, places=12)
+        weighted_velocity = sum(result.density_next[i] * result.bulk_velocity_next[i].x for i in range(64))
+        self.assertAlmostEqual(weighted_velocity, 2.0, places=12)
+
+    def test_second_prediction_and_correction_keep_uniform_state(self):
+        grid = self.make_grid()
+        state = boris.PredictionInput()
+        state.electric = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.magnetic = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.particles = [boris.Particle(boris.Vec3(1.5, 1.5, 1.5), boris.Vec3(1.0, 0.0, 0.0), 1.0, 1.0)]
+        first = boris.predict_first(grid, state, 0.1)
+        second = boris.predict_second(grid, state, first, 0.1)
+        correction = boris.CorrectionInput()
+        correction.magnetic = second.magnetic_next
+        correction.electric_half = first.electric_half
+        correction.density = [1.0 for _ in range(64)]
+        correction.bulk_velocity = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        correction.electron_pressure = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        corrected = boris.correct_fields(grid, correction, 0.1, 0.0, 0.0)
+        for field in corrected.electric:
+            self.assertAlmostEqual(field.x, 0.0, places=12)
+            self.assertAlmostEqual(field.y, 0.0, places=12)
+            self.assertAlmostEqual(field.z, 0.0, places=12)
+
+    def test_cic_weights_are_periodic_and_conservative(self):
+        grid = self.make_grid()
+        state = boris.PredictionInput()
+        state.electric = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.magnetic = [boris.Vec3(0.0, 0.0, 0.0) for _ in range(64)]
+        state.particles = [boris.Particle(boris.Vec3(3.9, 1.0, 1.0), boris.Vec3(0.0, 0.0, 0.0), 1.0, 1.0)]
+        result = boris.predict_first(grid, state, 0.1)
+        self.assertAlmostEqual(sum(result.density_next), 1.0, places=12)
+        nonzero_cells = sum(1 for density in result.density_next if density > 0.0)
+        self.assertEqual(nonzero_cells, 8)
+
+
 if __name__ == "__main__":
     unittest.main()

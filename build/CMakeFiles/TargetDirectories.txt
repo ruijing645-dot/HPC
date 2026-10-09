@@ -1,0 +1,4 @@
+/home/ruijing/M2/HPC/build/CMakeFiles/boris_cpp.dir
+/home/ruijing/M2/HPC/build/CMakeFiles/test.dir
+/home/ruijing/M2/HPC/build/CMakeFiles/edit_cache.dir
+/home/ruijing/M2/HPC/build/CMakeFiles/rebuild_cache.dir

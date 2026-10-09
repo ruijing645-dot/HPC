@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 project(boris_cpp LANGUAGES CXX)
 
+# Let editors consume the exact include paths resolved by CMake.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module)
 
 execute_process(

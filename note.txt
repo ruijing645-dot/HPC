@@ -1,0 +1,18 @@
+implicit 什么东西的ODE
+stable/unstable with
+stability add pertubation to see 
+plasma freq 是根据deyba length
+hytro radius -> small scale
+这里的implicit because u n+1 only depens on n
+之前的 B E 可鞥不在一个点 vxB需要projection
+prediction的第二个好像有问题 nabulaxB 少了什么
+prediction中把每个式子不都写出来 都分别写
+什么是yaml texts
+continually 用condition to check text; 拉莫radius
+什么是google tests
+pybind11 什么是ddt
+# ifndef  
+# define 
+# endif
+什么意思 就是用python 给出contribution
+moment distribution 什么的 给然后再设计

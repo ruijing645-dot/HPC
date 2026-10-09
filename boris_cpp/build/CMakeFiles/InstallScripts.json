@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/ruijing/M2/HPC/boris_cpp/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
