@@ -47,7 +47,10 @@ inline Vec3 interpolate_cic(const PeriodicGrid& grid, const std::vector<Vec3>& v
         throw std::invalid_argument("grid value count does not match grid size");
     }
     Vec3 result{};
-    for (const CicPointWeight& item : cic_weights(grid, position)) {
+    const auto weights = cic_weights(grid, position);
+
+    for (int i = 0; i < 8; ++i) {
+        const CicPointWeight& item = weights[i];
         result = add(result, multiply(values[item.cell], item.weight));
     }
     return result;
