@@ -35,10 +35,13 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
   /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/stl.h \
   /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/trampoline_self_life_support.h \
   /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/typing.h \
-  /home/ruijing/M2/HPC/boris_cpp/include/boris/boris.hpp \
-  /home/ruijing/M2/HPC/boris_cpp/include/boris/cic.hpp \
-  /home/ruijing/M2/HPC/boris_cpp/include/boris/grid_utils.hpp \
-  /home/ruijing/M2/HPC/boris_cpp/include/boris/prediction.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/core/boundary.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/core/grid_utils.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/core/mesh.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/core/vector.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/mechanisms/boris.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/mechanisms/cic.hpp \
+  /home/ruijing/M2/HPC/boris_cpp/include/boris/simulation/prediction.hpp \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -554,11 +557,13 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h:
 
-/usr/include/c++/15/tr1/riemann_zeta.tcc:
+/usr/lib/gcc/x86_64-linux-gnu/15/include/limits.h:
 
 /usr/include/c++/15/tr1/legendre_function.tcc:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
+/home/ruijing/M2/HPC/boris_cpp/include/boris/core/boundary.hpp:
 
 /usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
@@ -589,10 +594,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/python3.14/Python.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
-
-/usr/include/c++/15/thread:
 
 /usr/include/c++/15/new:
 
@@ -744,6 +745,12 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/bits/exception_defines.h:
 
+/usr/include/x86_64-linux-gnu/sys/time.h:
+
+/usr/include/c++/15/bits/memory_resource.h:
+
+/usr/include/c++/15/bits/stl_function.h:
+
 /usr/include/c++/15/bits/stl_deque.h:
 
 /usr/include/python3.14/traceback.h:
@@ -802,13 +809,19 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/bits/slice_array.h:
 
-/usr/include/c++/15/bits/atomic_base.h:
+/usr/include/c++/15/bits/this_thread_sleep.h:
 
-/usr/include/c++/15/bit:
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
-/usr/include/c++/15/bits/allocator.h:
+/home/ruijing/M2/HPC/boris_cpp/include/boris/mechanisms/boris.hpp:
 
-/usr/include/asm-generic/posix_types.h:
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/c++/15/bits/stringfwd.h:
+
+/usr/include/c++/15/bits/shared_ptr.h:
+
+/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/options.h:
 
 /usr/include/python3.14/warnings.h:
 
@@ -818,6 +831,12 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/bits/gslice.h:
 
+/usr/include/c++/15/bits/allocator.h:
+
+/usr/include/c++/15/bit:
+
+/usr/include/asm-generic/posix_types.h:
+
 /usr/include/c++/15/bits/valarray_after.h:
 
 /usr/include/python3.14/audit.h:
@@ -825,6 +844,34 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/alloca.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/asm-generic/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
+
+/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/struct_smart_holder.h:
+
+/usr/include/c++/15/bits/ranges_base.h:
+
+/usr/include/python3.14/dictobject.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+
+/usr/include/c++/15/bits/unordered_set.h:
+
+/home/ruijing/M2/HPC/boris_cpp/include/boris/simulation/prediction.hpp:
+
+/home/ruijing/M2/HPC/boris_cpp/include/boris/mechanisms/cic.hpp:
+
+/usr/include/python3.14/cpython/funcobject.h:
+
+/usr/include/python3.14/cpython/monitoring.h:
+
+/usr/include/python3.14/cpython/objimpl.h:
+
+/usr/include/python3.14/cpython/listobject.h:
 
 /usr/include/c++/15/bits/ostream.tcc:
 
@@ -836,6 +883,8 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/function_ref.h:
 
+/usr/include/x86_64-linux-gnu/bits/sched.h:
+
 /usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/c++/15/ext/type_traits.h:
@@ -846,6 +895,10 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/x86_64-linux-gnu/python3.14/pyconfig.h:
 
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/dynamic_raw_ptr_cast_if_possible.h:
+
 /usr/include/c++/15/initializer_list:
 
 /usr/include/c++/15/bits/stl_vector.h:
@@ -854,19 +907,13 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/python3.14/cpython/pyatomic.h:
 
+/home/ruijing/M2/HPC/boris_cpp/include/boris/core/grid_utils.hpp:
+
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/cpp_conduit.h:
 
 /usr/include/linux/types.h:
 
 /usr/include/python3.14/floatobject.h:
-
-/usr/include/c++/15/bits/ranges_uninitialized.h:
-
-/usr/include/c++/15/bits/this_thread_sleep.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
-
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/exception_translation.h:
 
@@ -876,27 +923,33 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/cpu_defines.h:
 
-/usr/include/c++/15/bits/unordered_map.h:
+/usr/include/c++/15/bits/uses_allocator.h:
 
-/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+/usr/include/c++/15/bits/stl_tempbuf.h:
 
-/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/attr.h:
+/usr/include/python3.14/cpython/import.h:
+
+/usr/include/x86_64-linux-gnu/c++/15/bits/os_defines.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/class.h:
 
 /usr/include/python3.14/setobject.h:
+
+/usr/include/c++/15/bits/unordered_map.h:
+
+/usr/include/c++/15/bits/erase_if.h:
+
+/usr/include/c++/15/bits/std_mutex.h:
+
+/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+
+/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/attr.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/gil_safe_call_once.h:
 
 /usr/include/c++/15/cstring:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/cast.h:
-
-/usr/include/asm-generic/bitsperlong.h:
-
-/usr/include/asm-generic/types.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/buffer_info.h:
 
@@ -910,15 +963,9 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/numbers:
 
-/usr/include/c++/15/backward/binders.h:
-
 /usr/include/c++/15/exception:
 
-/usr/include/python3.14/cpython/monitoring.h:
-
-/usr/include/python3.14/cpython/objimpl.h:
-
-/usr/include/python3.14/cpython/listobject.h:
+/usr/include/c++/15/backward/binders.h:
 
 /usr/include/c++/15/math.h:
 
@@ -928,17 +975,7 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/python3.14/cpython/code.h:
 
-/home/ruijing/M2/HPC/boris_cpp/include/boris/cic.hpp:
-
-/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/struct_smart_holder.h:
-
-/usr/include/c++/15/bits/ranges_base.h:
-
-/usr/include/python3.14/dictobject.h:
-
 /usr/include/c++/15/bits/monostate.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/15/include/limits.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/trampoline_self_life_support.h:
 
@@ -953,8 +990,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/c++/15/bits/ranges_util.h:
 
 /usr/include/assert.h:
-
-/home/ruijing/M2/HPC/boris_cpp/include/boris/grid_utils.hpp:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/pybind11_namespace_macros.h:
 
@@ -1004,9 +1039,7 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
-/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/options.h:
-
-/usr/include/c++/15/bits/shared_ptr.h:
+/usr/include/c++/15/bits/atomic_base.h:
 
 /usr/include/c++/15/tr1/modified_bessel_func.tcc:
 
@@ -1030,19 +1063,13 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/stack:
 
-/usr/include/c++/15/bits/std_mutex.h:
+/usr/include/c++/15/bits/new_allocator.h:
 
-/usr/include/c++/15/bits/erase_if.h:
-
-/usr/include/c++/15/bits/stringfwd.h:
+/usr/include/python3.14/cpython/cellobject.h:
 
 /usr/include/c++/15/bits/stl_raw_storage_iter.h:
 
 /usr/include/c++/15/bits/ostream.h:
-
-/usr/include/c++/15/cctype:
-
-/usr/include/c++/15/bits/char_traits.h:
 
 /usr/include/c++/15/ext/concurrence.h:
 
@@ -1070,12 +1097,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/bits/chrono.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
-
-/usr/include/c++/15/bits/unordered_set.h:
-
-/usr/include/python3.14/descrobject.h:
-
 /usr/include/c++/15/bits/forward_list.tcc:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/common.h:
@@ -1084,19 +1105,9 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/python3.14/cpython/unicodeobject.h:
 
-/usr/include/c++/15/bits/postypes.h:
-
-/usr/include/python3.14/abstract.h:
-
-/usr/include/python3.14/tupleobject.h:
-
-/usr/include/c++/15/bits/indirect_array.h:
-
 /usr/include/c++/15/bits/invoke.h:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/pytypes.h:
-
-/home/ruijing/M2/HPC/boris_cpp/include/boris/prediction.hpp:
 
 /usr/include/c++/15/bits/iterator_concepts.h:
 
@@ -1140,21 +1151,11 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/c++/15/bits/unique_ptr.h:
 
+/home/ruijing/M2/HPC/boris_cpp/include/boris/core/mesh.hpp:
+
 /usr/include/c++/15/bits/move.h:
 
 /usr/include/x86_64-linux-gnu/c++/15/bits/ctype_inline.h:
-
-/usr/include/c++/15/bits/uses_allocator.h:
-
-/usr/include/c++/15/bits/stl_tempbuf.h:
-
-/usr/include/python3.14/cpython/import.h:
-
-/usr/include/python3.14/cpython/cellobject.h:
-
-/usr/include/c++/15/bits/new_allocator.h:
-
-/usr/include/x86_64-linux-gnu/c++/15/bits/os_defines.h:
 
 /usr/include/c++/15/bits/ostream_insert.h:
 
@@ -1168,11 +1169,29 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/python3.14/pyatomic.h:
 
+/home/ruijing/M2/HPC/boris_cpp/include/boris/core/vector.hpp:
+
+/usr/include/python3.14/pymem.h:
+
+/usr/include/c++/15/bits/indirect_array.h:
+
+/usr/include/c++/15/bits/postypes.h:
+
+/usr/include/python3.14/abstract.h:
+
+/usr/include/python3.14/tupleobject.h:
+
 /usr/include/c++/15/bits/range_access.h:
 
 /usr/include/c++/15/bits/ranges_cmp.h:
 
 /usr/include/python3.14/cpython/setobject.h:
+
+/usr/include/c++/15/bits/char_traits.h:
+
+/usr/include/c++/15/cctype:
+
+/usr/include/c++/15/bits/ranges_uninitialized.h:
 
 /usr/include/asm-generic/errno.h:
 
@@ -1181,6 +1200,14 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/python3.14/cpython/warnings.h:
 
 /usr/include/python3.14/cpython/classobject.h:
+
+/usr/include/c++/15/tr1/riemann_zeta.tcc:
+
+/usr/include/c++/15/thread:
+
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
+/usr/include/python3.14/descrobject.h:
 
 /usr/include/c++/15/type_traits:
 
@@ -1288,8 +1315,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/python3.14/cpython/funcobject.h:
-
 /usr/include/python3.14/cpython/longintrepr.h:
 
 /usr/include/c++/15/cwchar:
@@ -1317,8 +1342,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/c++/15/bits/refwrap.h:
 
 /usr/include/python3.14/cpython/pyatomic_gcc.h:
-
-/home/ruijing/M2/HPC/boris_cpp/include/boris/boris.hpp:
 
 /home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/stl.h:
 
@@ -1408,19 +1431,9 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 
 /usr/include/python3.14/object.h:
 
-/usr/include/c++/15/bits/memory_resource.h:
-
-/usr/include/c++/15/bits/stl_function.h:
-
-/usr/include/x86_64-linux-gnu/sys/time.h:
-
 /usr/include/c++/15/bits/concept_check.h:
 
 /usr/include/python3.14/objimpl.h:
-
-/home/ruijing/.venv/lib/python3.14/site-packages/pybind11/include/pybind11/detail/dynamic_raw_ptr_cast_if_possible.h:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
 
 /usr/include/stdint.h:
 
@@ -1449,8 +1462,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/python3.14/pymacconfig.h:
 
 /usr/include/python3.14/pymacro.h:
-
-/usr/include/python3.14/pymem.h:
 
 /usr/include/python3.14/pystate.h:
 
@@ -1533,8 +1544,6 @@ CMakeFiles/boris_cpp.dir/src/bindings.cpp.o: /home/ruijing/M2/HPC/boris_cpp/src/
 /usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/x86_64-linux-gnu/bits/sched.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
 

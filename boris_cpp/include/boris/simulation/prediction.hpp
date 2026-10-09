@@ -2,7 +2,8 @@
 
 #include <vector>
 
-#include "boris/cic.hpp"
+#include "boris/mechanisms/boris.hpp"
+#include "boris/mechanisms/cic.hpp"
 
 namespace boris {
 

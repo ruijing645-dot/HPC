@@ -1,8 +1,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include "boris/boris.hpp"
-#include "boris/prediction.hpp"
+#include "boris/mechanisms/boris.hpp"
+#include "boris/simulation/prediction.hpp"
 
 namespace py = pybind11;
 

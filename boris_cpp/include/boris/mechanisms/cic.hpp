@@ -3,7 +3,7 @@
 #include <array>
 #include <vector>
 
-#include "boris/grid_utils.hpp"
+#include "boris/core/grid_utils.hpp"
 
 namespace boris {
 
@@ -12,13 +12,13 @@ struct CicPointWeight {
     double weight;
 };
 
-// Return the eight cell-centered CIC weights. PeriodicGrid wraps edge cells.
+// Return the eight node-centered CIC weights. PeriodicGrid wraps edge nodes.
 inline std::array<CicPointWeight, 8> cic_weights(const PeriodicGrid& grid, Vec3 position) {
     const Vec3 point = grid.wrap_position(position);
     const Vec3 dx = grid.spacing();
-    const double gx = (point.x - grid.origin.x) / dx.x - 0.5;
-    const double gy = (point.y - grid.origin.y) / dx.y - 0.5;
-    const double gz = (point.z - grid.origin.z) / dx.z - 0.5;
+    const double gx = (point.x - grid.origin.x) / dx.x;
+    const double gy = (point.y - grid.origin.y) / dx.y;
+    const double gz = (point.z - grid.origin.z) / dx.z;
     const int i0 = static_cast<int>(std::floor(gx));
     const int j0 = static_cast<int>(std::floor(gy));
     const int k0 = static_cast<int>(std::floor(gz));

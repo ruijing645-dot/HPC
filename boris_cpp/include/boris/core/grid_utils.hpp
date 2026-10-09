@@ -1,15 +1,16 @@
 #pragma once
 
 #include <array>
-#include <cmath>
 #include <stdexcept>
 #include <vector>
 
-#include "boris/boris.hpp"
+#include "boris/core/boundary.hpp"
+#include "boris/core/vector.hpp"
 
 namespace boris {
 
-// Cell-centered, periodic, uniform 3-D grid utilities.
+// Node-centered, periodic, uniform 3-D grid utilities. The periodic endpoint
+// is identified with the origin, so each axis stores `cells[axis]` unique nodes.
 struct PeriodicGrid {
     Vec3 origin;
     Vec3 extent;
@@ -44,13 +45,7 @@ struct PeriodicGrid {
     }
 
     Vec3 wrap_position(Vec3 position) const {
-        auto wrap = [](double value, double low, double length) {
-            double offset = std::fmod(value - low, length);
-            if (offset < 0.0) offset += length;
-            return low + offset;
-        };
-        return {wrap(position.x, origin.x, extent.x), wrap(position.y, origin.y, extent.y),
-                wrap(position.z, origin.z, extent.z)};
+        return boris::wrap_position(position, origin, extent);
     }
 };
 
