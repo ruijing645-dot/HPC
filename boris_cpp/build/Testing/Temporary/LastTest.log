@@ -1,10 +1,10 @@
-Start testing: Oct 16 11:44 CEST
+Start testing: Oct 16 12:26 CEST
 ----------------------------------------------------------
 1/6 Testing: test_01_boris_pusher
 1/6 Test: test_01_boris_pusher
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_01_boris_pusher.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_01_boris_pusher" start time: Oct 16 11:44 CEST
+"test_01_boris_pusher" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_01_boris_pusher.ipynb to notebook
@@ -27,10 +27,10 @@ Output:
    "id": "abf884fb",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:44:50.306727Z",
-     "iopub.status.busy": "2026-10-16T09:44:50.306400Z",
-     "iopub.status.idle": "2026-10-16T09:44:51.197018Z",
-     "shell.execute_reply": "2026-10-16T09:44:51.195197Z"
+     "iopub.execute_input": "2026-10-16T10:26:38.128082Z",
+     "iopub.status.busy": "2026-10-16T10:26:38.127805Z",
+     "iopub.status.idle": "2026-10-16T10:26:38.990884Z",
+     "shell.execute_reply": "2026-10-16T10:26:38.989309Z"
     }
    },
    "outputs": [
@@ -137,10 +137,10 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   4.22 sec
+Test time =   4.72 sec
 ----------------------------------------------------------
 Test Passed.
-"test_01_boris_pusher" end time: Oct 16 11:44 CEST
+"test_01_boris_pusher" end time: Oct 16 12:26 CEST
 "test_01_boris_pusher" time elapsed: 00:00:04
 ----------------------------------------------------------
 
@@ -148,7 +148,7 @@ Test Passed.
 2/6 Test: test_02_grid_field_push
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_02_grid_field_push" start time: Oct 16 11:44 CEST
+"test_02_grid_field_push" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.ipynb to notebook
@@ -171,10 +171,10 @@ Output:
    "id": "64a93b14",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:44:54.517872Z",
-     "iopub.status.busy": "2026-10-16T09:44:54.517628Z",
-     "iopub.status.idle": "2026-10-16T09:44:55.299344Z",
-     "shell.execute_reply": "2026-10-16T09:44:55.297799Z"
+     "iopub.execute_input": "2026-10-16T10:26:42.191760Z",
+     "iopub.status.busy": "2026-10-16T10:26:42.191411Z",
+     "iopub.status.idle": "2026-10-16T10:26:42.941860Z",
+     "shell.execute_reply": "2026-10-16T10:26:42.940278Z"
     }
    },
    "outputs": [
@@ -267,18 +267,18 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   4.08 sec
+Test time =   3.96 sec
 ----------------------------------------------------------
 Test Passed.
-"test_02_grid_field_push" end time: Oct 16 11:44 CEST
-"test_02_grid_field_push" time elapsed: 00:00:04
+"test_02_grid_field_push" end time: Oct 16 12:26 CEST
+"test_02_grid_field_push" time elapsed: 00:00:03
 ----------------------------------------------------------
 
 3/6 Testing: test_03_cic
 3/6 Test: test_03_cic
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_03_cic" start time: Oct 16 11:44 CEST
+"test_03_cic" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.ipynb to notebook
@@ -301,10 +301,10 @@ Output:
    "id": "683b11c4",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:44:58.455475Z",
-     "iopub.status.busy": "2026-10-16T09:44:58.455125Z",
-     "iopub.status.idle": "2026-10-16T09:44:59.365919Z",
-     "shell.execute_reply": "2026-10-16T09:44:59.363837Z"
+     "iopub.execute_input": "2026-10-16T10:26:46.147015Z",
+     "iopub.status.busy": "2026-10-16T10:26:46.146718Z",
+     "iopub.status.idle": "2026-10-16T10:26:47.043795Z",
+     "shell.execute_reply": "2026-10-16T10:26:47.042224Z"
     }
    },
    "outputs": [
@@ -392,10 +392,10 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   4.08 sec
+Test time =   4.14 sec
 ----------------------------------------------------------
 Test Passed.
-"test_03_cic" end time: Oct 16 11:44 CEST
+"test_03_cic" end time: Oct 16 12:26 CEST
 "test_03_cic" time elapsed: 00:00:04
 ----------------------------------------------------------
 
@@ -403,7 +403,7 @@ Test Passed.
 4/6 Test: test_04_prediction_first
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_04_prediction_first" start time: Oct 16 11:44 CEST
+"test_04_prediction_first" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.ipynb to notebook
@@ -426,10 +426,10 @@ Output:
    "id": "a8a5f5e5",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:45:02.623021Z",
-     "iopub.status.busy": "2026-10-16T09:45:02.622770Z",
-     "iopub.status.idle": "2026-10-16T09:45:03.504494Z",
-     "shell.execute_reply": "2026-10-16T09:45:03.502975Z"
+     "iopub.execute_input": "2026-10-16T10:26:50.340929Z",
+     "iopub.status.busy": "2026-10-16T10:26:50.340707Z",
+     "iopub.status.idle": "2026-10-16T10:26:51.241482Z",
+     "shell.execute_reply": "2026-10-16T10:26:51.239897Z"
     }
    },
    "outputs": [
@@ -512,10 +512,10 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   4.15 sec
+Test time =   4.17 sec
 ----------------------------------------------------------
 Test Passed.
-"test_04_prediction_first" end time: Oct 16 11:45 CEST
+"test_04_prediction_first" end time: Oct 16 12:26 CEST
 "test_04_prediction_first" time elapsed: 00:00:04
 ----------------------------------------------------------
 
@@ -523,7 +523,7 @@ Test Passed.
 5/6 Test: test_05_prediction_second
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_05_prediction_second" start time: Oct 16 11:45 CEST
+"test_05_prediction_second" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.ipynb to notebook
@@ -546,10 +546,10 @@ Output:
    "id": "2a2666ec",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:45:06.759750Z",
-     "iopub.status.busy": "2026-10-16T09:45:06.759458Z",
-     "iopub.status.idle": "2026-10-16T09:45:07.540527Z",
-     "shell.execute_reply": "2026-10-16T09:45:07.539248Z"
+     "iopub.execute_input": "2026-10-16T10:26:54.498002Z",
+     "iopub.status.busy": "2026-10-16T10:26:54.497752Z",
+     "iopub.status.idle": "2026-10-16T10:26:55.325588Z",
+     "shell.execute_reply": "2026-10-16T10:26:55.324111Z"
     }
    },
    "outputs": [
@@ -631,10 +631,10 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   4.01 sec
+Test time =   4.11 sec
 ----------------------------------------------------------
 Test Passed.
-"test_05_prediction_second" end time: Oct 16 11:45 CEST
+"test_05_prediction_second" end time: Oct 16 12:26 CEST
 "test_05_prediction_second" time elapsed: 00:00:04
 ----------------------------------------------------------
 
@@ -642,7 +642,7 @@ Test Passed.
 6/6 Test: test_06_correction
 Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_06_correction" start time: Oct 16 11:45 CEST
+"test_06_correction" start time: Oct 16 12:26 CEST
 Output:
 ----------------------------------------------------------
 [NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.ipynb to notebook
@@ -665,10 +665,10 @@ Output:
    "id": "c9edaabf",
    "metadata": {
     "execution": {
-     "iopub.execute_input": "2026-10-16T09:45:10.797112Z",
-     "iopub.status.busy": "2026-10-16T09:45:10.796845Z",
-     "iopub.status.idle": "2026-10-16T09:45:11.955863Z",
-     "shell.execute_reply": "2026-10-16T09:45:11.953669Z"
+     "iopub.execute_input": "2026-10-16T10:26:58.549355Z",
+     "iopub.status.busy": "2026-10-16T10:26:58.549016Z",
+     "iopub.status.idle": "2026-10-16T10:26:59.714727Z",
+     "shell.execute_reply": "2026-10-16T10:26:59.712790Z"
     }
    },
    "outputs": [
@@ -766,11 +766,11 @@ Output:
  "nbformat_minor": 5
 }
 <end of output>
-Test time =   7.37 sec
+Test time =   4.39 sec
 ----------------------------------------------------------
 Test Passed.
-"test_06_correction" end time: Oct 16 11:45 CEST
-"test_06_correction" time elapsed: 00:00:07
+"test_06_correction" end time: Oct 16 12:27 CEST
+"test_06_correction" time elapsed: 00:00:04
 ----------------------------------------------------------
 
-End testing: Oct 16 11:45 CEST
+End testing: Oct 16 12:27 CEST

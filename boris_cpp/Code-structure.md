@@ -63,7 +63,12 @@
             b.laplacian_periodic(): Laplacian \nabla^2
             central finite difference（二阶中心差分）
             中心差分公式为：
-6. prediction.hpp:
+6. simulation headers:
+    - simulation_types.hpp：共享输入和输出结构
+    - faraday.hpp：法拉第方程的磁场更新
+    - prediction_first.hpp、prediction_second.hpp：两次预测步骤
+    - correction.hpp：场校正步骤
+    - field_operators.hpp：curl 和 Laplacian 等二维场算子
 
 7. test_boris.hpp:
 ------
@@ -75,4 +80,3 @@ grid_utls的加入后：test pusher
  P 是scalar symmetric all
  particle-to-grid density deposition
  
-
