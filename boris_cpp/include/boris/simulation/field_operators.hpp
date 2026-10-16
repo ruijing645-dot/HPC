@@ -8,6 +8,9 @@
 namespace boris {
 
 // Curl for a 2D3V field: all three vector components are kept, while d/dz=0.
+// \nable xF=(\partial_y F_z-\partial_z F_y,\partial_z F_x-\partial_x F_z,\partial_x F_y-\partial_y F_x)
+// then with d/dz =0 -> (\partial_y F_z, -\partial_x F_z, \partial_x F_y-\partial_y F_x)
+//const std::size_t c = grid.index(i, j, 0); extract all index as z's direction is only one cell, thus, just let it's z all in 0 index
 inline std::vector<Vec3> curl_periodic(const PeriodicGrid& grid,
                                        const std::vector<Vec3>& field) {
     if (field.size() != grid.size()) throw std::invalid_argument("field array must match grid size");
@@ -29,6 +32,7 @@ inline std::vector<Vec3> curl_periodic(const PeriodicGrid& grid,
 }
 
 // Component-wise Laplacian in the x-y plane; z derivatives are zero.
+// \partial^2 f/\partial y^2 = (f_{i,j+1}-2 f_{i,j}+f_{i,j-1})/\nabla^2 y^2
 inline std::vector<Vec3> laplacian_periodic(const PeriodicGrid& grid,
                                             const std::vector<Vec3>& field) {
     if (field.size() != grid.size()) throw std::invalid_argument("field array must match grid size");

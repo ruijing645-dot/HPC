@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/ruijing/M2/HPC/boris_cpp"
+    "cmake.sourceDirectory": "/home/ruijing/M2/HPC/boris_cpp",
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

@@ -49,7 +49,7 @@ struct PeriodicGrid {
         position.x = boris::wrap_coordinate(position.x, origin.x, extent.x);
         position.y = boris::wrap_coordinate(position.y, origin.y, extent.y);
         return position;
-    }
+        }
 };
 
 }  // namespace boris

@@ -19,15 +19,16 @@
             };
         ## 使用时： UniformMesh mesh(origin, extent, cells, electric, magnetic); 这行代码创建了一个 UniformMesh 类型的对象，并把它命名为 mesh
     3. grid_utils.hpp:
-        - 全项目采用 2D3V：网格位置只在 x-y 平面变化，粒子速度和电磁场仍保留 x、y、z 三个分量
-        - 保存网格信息：origin 和 extent 的 x、y 分量描述二维平面；cells[2] 会固定为 1
-        - size() 返回二维网格节点总数 Nx × Ny；spacing() 的 z 分量为 0
-        - index(i, j, k) 把二维网格坐标映射为一维索引，k 总是映射到唯一的 z 平面
-        - wrap_position(position) 只周期包装 x、y，z 坐标保持不变
+        - 保存网格信息：origin 是网格起点，extent 是三个方向的总长度，cells 是三个方向的单元格数量。构造时会检查长度和单元格数都为正
+        已经设置z方向都给压缩到1的space了
+        - 计算网格大小：size() 返回单元格总数，即 Nx × Ny × Nz
+        - 计算单元格间距：spacing() 返回每个方向的网格间距，即 extent / cells
+        - 计算线性索引：index(i, j, k) 将三维单元格坐标转换成一维数组索引。越界的单元格坐标会按周期边界循环回网格内，例如 i = -1 会对应最后一个 x 方向单元格
+        - 映射物理位置：wrap_position(position) 将超出网格范围的位置周期性映射回网格内；它调用 boundary.hpp 中的公共 wrap_position()，没有重复实现算法
     4. boundary.hpp:
        wrap_coordinate(value, low, length) 定义这个算法
-       wrap_position(position, origin, extent) 只包装 x、y 坐标
-       apply_particle_boundary 定义二维平面内的粒子边界
+       wrap_position(position, origin, extent) 对x y z 都使用
+       apply_particle_boundary 定义具体的边界
 ### mechanisms:
 
     1. boris.hpp:
@@ -40,34 +41,38 @@
             接收网格，会先根据粒子位置从网格采样电场和磁场，再调用上面的版本更新速度；之后更新位置，并处理吸收、周期或反射边界
     ## const 表示这些中间结果在定义后不再重新赋值
     2. cic.hpp: CIC（Cloud-In-Cell，云团在网格）插值：在粒子位置附近找出网格单元，并计算各单元对该位置的权重。它本身不推进粒子，也不保存电磁场
-     周围四个网格点的权重；二维 cell 的四个角点
+    周围八个点的权重；3D的 cell 方块的8个点
     struct CicPointWeight{} 变量
     cic_weights
     1. grid.wrap_position(position) 先将位置周期性映射回网格范围。
-    2. grid.spacing() 取得 x、y 两个方向的网格间距
+    2. grid.spacing() 取得三个方向的网格间距
     3. 将物理位置换算为以网格间距为单位的坐标
        const int i0 = static_cast<int>(std::floor(gx));
        这行先用 std::floor(gx) 向下取整，再用 static_cast<int> 把结果转换成整数，赋给 i0。i0 表示 x 方向上，粒子所在位置左侧（或正好所在）的网格节点索引
     4. const double fx = gx - i0;
         计算粒子在节点 i0 和下一个节点 i0 + 1 之间的位置比例。比如 gx = 2.3 时，fx = 0.3，x 方向上两个节点的权重分别是 0.7 和 0.3
-        for ...定义 wx 和 wy，两个方向的权重相乘得到四个角点的权重。
+        for ...定义 wx，如果 di 非零，就把 fx 赋给它；否则把 1.0 - fx 赋给它。
     interpolate_cic
         values 是调用者传进来的网格数据数组，通常是每个节点上的场值
         ### 语法 ： CicPointWeight item = weights[i];        // 复制一份
                     const CicPointWeight& item = weights[i]; // 引用原对象，只读
                     CicPointWeight& item = weights[i];       // 引用原对象，可修改
-6. simulation folder:
-    - simulation_types.hpp：保存 prediction 和 correction 共用的输入、输出结构
-    - field_operators.hpp：实现二维周期网格上的 curl 和 Laplacian；向量仍有 x、y、z 三个分量，空间导数满足 d/dz=0
-    - faraday.hpp：单独实现法拉第方程 B(t+dt)=B(t)-dt*curl(E)
-    - prediction_first.hpp、prediction_second.hpp：分别提供第一次、第二次预测入口
-    - correction.hpp：实现磁场更新和电场校正，并调用共享的 Faraday、curl 和 Laplacian 函数
-    - prediction.hpp：兼容入口，包含上面各头文件；新代码也可以直接包含需要的具体文件
+### simulation
+        1. field_operator.hpp: 
+            a. curl_periodic()：计算矢量场的 旋度curl 即 \nabla x F
+            b.laplacian_periodic(): Laplacian \nabla^2
+            central finite difference（二阶中心差分）
+            中心差分公式为：
+6. prediction.hpp:
 
-7. 测试 notebook：
-    - test_02_grid_field_push.ipynb 检查 PeriodicGrid 的每个函数
-    - test_03 至 test_06 分别检查 CIC、两次 prediction 和 correction
+7. test_boris.hpp:
 ------
 Python 接口
 bindings.cpp： 把C++类型和函数暴露给python
 grid_utls的加入后：test pusher
+法拉第单独写出来测试 在prediction中
+ 
+ P 是scalar symmetric all
+ particle-to-grid density deposition
+ 
+

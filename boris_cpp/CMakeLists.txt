@@ -22,12 +22,8 @@ target_compile_features(boris_cpp PRIVATE cxx_std_20)
 target_include_directories(boris_cpp PRIVATE include)
 
 enable_testing()
-add_test(NAME test_01_boris_pusher
-    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_01_boris_pusher.py")
-set_tests_properties(test_01_boris_pusher PROPERTIES
-    ENVIRONMENT "BORIS_MODULE_DIR=$<TARGET_FILE_DIR:boris_cpp>"
-)
 set(BORIS_NOTEBOOK_TESTS
+    test_01_boris_pusher.ipynb
     test_02_grid_field_push.ipynb
     test_03_cic.ipynb
     test_04_prediction_first.ipynb
