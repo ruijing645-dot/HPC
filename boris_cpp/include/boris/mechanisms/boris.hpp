@@ -34,11 +34,13 @@ inline void push(Particle& particle, double dt, const UniformMesh& mesh) {
         throw std::invalid_argument("particle mass and timestep must be positive");
     }
 
-    const Vec3 half_position = add(particle.position, multiply(particle.velocity, 0.5 * dt));
+    Vec3 half_position = add(particle.position, multiply(particle.velocity, 0.5 * dt));
+    half_position.z = particle.position.z;
     const Vec3 electric = mesh.electric_field(half_position);
     const Vec3 magnetic = mesh.magnetic_field(half_position);
     push(particle, dt, electric, magnetic);
     particle.position = add(half_position, multiply(particle.velocity, dt));
+    particle.position.z = half_position.z;
 
     apply_particle_boundary(particle.position, particle.velocity, mesh.origin(), mesh.extent(),
                             mesh.boundary(), particle.alive);

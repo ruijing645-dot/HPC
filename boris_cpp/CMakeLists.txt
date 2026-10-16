@@ -22,17 +22,22 @@ target_compile_features(boris_cpp PRIVATE cxx_std_20)
 target_include_directories(boris_cpp PRIVATE include)
 
 enable_testing()
-set(BORIS_TEST_FILES
-    test_01_boris_pusher.py
-    test_02_grid_field_push.py
-    test_03_cic.py
-    test_04_prediction_first.py
-    test_05_prediction_second.py
-    test_06_correction.py
+add_test(NAME test_01_boris_pusher
+    COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_01_boris_pusher.py")
+set_tests_properties(test_01_boris_pusher PROPERTIES
+    ENVIRONMENT "BORIS_MODULE_DIR=$<TARGET_FILE_DIR:boris_cpp>"
 )
-foreach(test_file IN LISTS BORIS_TEST_FILES)
+set(BORIS_NOTEBOOK_TESTS
+    test_02_grid_field_push.ipynb
+    test_03_cic.ipynb
+    test_04_prediction_first.ipynb
+    test_05_prediction_second.ipynb
+    test_06_correction.ipynb
+)
+foreach(test_file IN LISTS BORIS_NOTEBOOK_TESTS)
     get_filename_component(test_name "${test_file}" NAME_WE)
-    add_test(NAME "${test_name}" COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/tests/${test_file}")
+    add_test(NAME "${test_name}" COMMAND ${Python3_EXECUTABLE} -m nbconvert
+        --to notebook --execute --stdout "${CMAKE_CURRENT_SOURCE_DIR}/tests/${test_file}")
     set_tests_properties("${test_name}" PROPERTIES
         ENVIRONMENT "BORIS_MODULE_DIR=$<TARGET_FILE_DIR:boris_cpp>"
     )

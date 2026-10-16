@@ -16,15 +16,13 @@ inline double wrap_coordinate(double value, double low, double length) {
 
 inline Vec3 wrap_position(Vec3 position, Vec3 origin, Vec3 extent) {
     return {wrap_coordinate(position.x, origin.x, extent.x),
-            wrap_coordinate(position.y, origin.y, extent.y),
-            wrap_coordinate(position.z, origin.z, extent.z)};
+            wrap_coordinate(position.y, origin.y, extent.y), position.z};
 }
 
 inline void apply_particle_boundary(Vec3& position, Vec3& velocity, Vec3 origin,
                                     Vec3 extent, BoundaryCondition boundary, bool& alive) {
     if (position.x >= origin.x && position.x < origin.x + extent.x &&
-        position.y >= origin.y && position.y < origin.y + extent.y &&
-        position.z >= origin.z && position.z < origin.z + extent.z) {
+        position.y >= origin.y && position.y < origin.y + extent.y) {
         return;
     }
 
@@ -46,7 +44,6 @@ inline void apply_particle_boundary(Vec3& position, Vec3& velocity, Vec3 origin,
         };
         reflect(position.x, velocity.x, origin.x, extent.x);
         reflect(position.y, velocity.y, origin.y, extent.y);
-        reflect(position.z, velocity.z, origin.z, extent.z);
     }
 }
 

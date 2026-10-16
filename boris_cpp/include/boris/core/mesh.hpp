@@ -16,16 +16,15 @@ public:
                 BoundaryCondition boundary = BoundaryCondition::Absorbing)
         : origin_(origin), extent_(extent), cells_(cells), electric_field_(electric_field),
           magnetic_field_(magnetic_field), boundary_(boundary) {
-        if (!(extent.x > 0.0 && extent.y > 0.0 && extent.z > 0.0) ||
-            cells[0] <= 0 || cells[1] <= 0 || cells[2] <= 0) {
-            throw std::invalid_argument("mesh extents and cell counts must be positive");
+        if (!(extent.x > 0.0 && extent.y > 0.0) || cells[0] <= 0 || cells[1] <= 0) {
+            throw std::invalid_argument("2-D mesh x/y extents and cell counts must be positive");
         }
+        cells_[2] = 1;
     }
 
     bool contains(Vec3 position) const {
         return position.x >= origin_.x && position.x < origin_.x + extent_.x &&
-               position.y >= origin_.y && position.y < origin_.y + extent_.y &&
-               position.z >= origin_.z && position.z < origin_.z + extent_.z;
+               position.y >= origin_.y && position.y < origin_.y + extent_.y;
     }
     Vec3 electric_field(Vec3 /*position*/) const { return electric_field_; }
     Vec3 magnetic_field(Vec3 /*position*/) const { return magnetic_field_; }

@@ -9,8 +9,9 @@
 
 namespace boris {
 
-// Node-centered, periodic, uniform 3-D grid utilities. The periodic endpoint
-// is identified with the origin, so each axis stores `cells[axis]` unique nodes.
+// Node-centered, periodic, uniform 2-D grid utilities for 2D3V simulations.
+// Fields and particle velocities have three components, but positions are
+// represented only in x and y. The z axis stores one plane.
 struct PeriodicGrid {
     Vec3 origin;
     Vec3 extent;
@@ -18,10 +19,10 @@ struct PeriodicGrid {
 
     PeriodicGrid(Vec3 grid_origin, Vec3 grid_extent, std::array<int, 3> grid_cells)
         : origin(grid_origin), extent(grid_extent), cells(grid_cells) {
-        if (!(extent.x > 0.0 && extent.y > 0.0 && extent.z > 0.0) ||
-            cells[0] <= 0 || cells[1] <= 0 || cells[2] <= 0) {
-            throw std::invalid_argument("grid extents and cell counts must be positive");
+        if (!(extent.x > 0.0 && extent.y > 0.0) || cells[0] <= 0 || cells[1] <= 0) {
+            throw std::invalid_argument("2-D grid x/y extents and cell counts must be positive");
         }
+        cells[2] = 1;
     }
 
     std::size_t size() const {
@@ -29,7 +30,7 @@ struct PeriodicGrid {
     }
 
     Vec3 spacing() const {
-        return {extent.x / cells[0], extent.y / cells[1], extent.z / cells[2]};
+        return {extent.x / cells[0], extent.y / cells[1], 0.0};
     }
 
     int wrap_index(int index, int count) const {
@@ -45,7 +46,9 @@ struct PeriodicGrid {
     }
 
     Vec3 wrap_position(Vec3 position) const {
-        return boris::wrap_position(position, origin, extent);
+        position.x = boris::wrap_coordinate(position.x, origin.x, extent.x);
+        position.y = boris::wrap_coordinate(position.y, origin.y, extent.y);
+        return position;
     }
 };
 

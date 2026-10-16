@@ -1,10 +1,10 @@
-Start testing: Oct 09 12:14 CEST
+Start testing: Oct 16 11:06 CEST
 ----------------------------------------------------------
 1/6 Testing: test_01_boris_pusher
 1/6 Test: test_01_boris_pusher
 Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_01_boris_pusher.py"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_01_boris_pusher" start time: Oct 09 12:14 CEST
+"test_01_boris_pusher" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
 ...
@@ -13,86 +13,532 @@ Ran 3 tests in 0.001s
 
 OK
 <end of output>
-Test time =   0.09 sec
+Test time =   0.08 sec
 ----------------------------------------------------------
 Test Passed.
-"test_01_boris_pusher" end time: Oct 09 12:14 CEST
+"test_01_boris_pusher" end time: Oct 16 11:06 CEST
 "test_01_boris_pusher" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 2/6 Testing: test_02_grid_field_push
 2/6 Test: test_02_grid_field_push
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.py"
+Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_02_grid_field_push" start time: Oct 09 12:14 CEST
+"test_02_grid_field_push" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
+[NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_02_grid_field_push.ipynb to notebook
+/home/ruijing/.venv/lib/python3.14/site-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "8fdc82c8",
+   "metadata": {},
+   "source": [
+    "# 2D3V 网格基础测试\n",
+    "\n",
+    "逐个检查 `PeriodicGrid` 的构造、`size`、`spacing`、`wrap_index`、`index` 和 `wrap_position`。网格只在 x-y 平面变化，z 坐标保留原值。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "bdae1b27",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-10-16T09:06:15.996927Z",
+     "iopub.status.busy": "2026-10-16T09:06:15.996651Z",
+     "iopub.status.idle": "2026-10-16T09:06:16.019381Z",
+     "shell.execute_reply": "2026-10-16T09:06:16.017559Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "PeriodicGrid 的所有函数都通过了。\n",
+      "粒子 z 速度会更新，但 z 位置保持不变。\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "import sys\n",
+    "sys.path.insert(0, os.environ['BORIS_MODULE_DIR'])\n",
+    "import boris_cpp as boris\n",
+    "\n",
+    "origin = boris.Vec3(1.0, 2.0, 7.0)\n",
+    "extent = boris.Vec3(4.0, 6.0, 0.0)\n",
+    "grid = boris.PeriodicGrid(origin, extent, (4, 3, 8))\n",
+    "assert (grid.origin.x, grid.origin.y, grid.origin.z) == (1.0, 2.0, 7.0)\n",
+    "assert (grid.extent.x, grid.extent.y, grid.extent.z) == (4.0, 6.0, 0.0)\n",
+    "\n",
+    "# 2D 网格只有一个 z 平面，总节点数是 4 * 3。\n",
+    "assert tuple(grid.cells) == (4, 3, 1)\n",
+    "assert grid.size() == 12\n",
+    "\n",
+    "# x 方向间距是 4/4=1，y 方向间距是 6/3=2；z 没有网格间距。\n",
+    "dx = grid.spacing()\n",
+    "assert (dx.x, dx.y, dx.z) == (1.0, 2.0, 0.0)\n",
+    "\n",
+    "# 周期索引把负数也绕回有效范围。\n",
+    "assert grid.wrap_index(-1, 4) == 3\n",
+    "assert grid.wrap_index(4, 4) == 0\n",
+    "\n",
+    "# index(-1, 3, 8) 等同于 index(3, 0, 0)，线性位置为 3*3+0。\n",
+    "assert grid.index(-1, 3, 8) == 9\n",
+    "\n",
+    "# x=-1 绕回 3，y=9 绕回 3，z=123 保持不变。\n",
+    "point = grid.wrap_position(boris.Vec3(-1.0, 9.0, 123.0))\n",
+    "assert (point.x, point.y, point.z) == (3.0, 3.0, 123.0)\n",
+    "\n",
+    "print('PeriodicGrid 的所有函数都通过了。')\n",
+    "\n",
+    "# 2D3V 粒子可以有 z 速度，但不会沿 z 移动。\n",
+    "mesh = boris.UniformMesh(\n",
+    "    boris.Vec3(0, 0, 0), boris.Vec3(4, 4, 0), (4, 4, 1),\n",
+    "    boris.Vec3(0, 0, 1), boris.Vec3(0, 0, 0),\n",
+    ")\n",
+    "particle = boris.Particle(boris.Vec3(1, 1, 9), boris.Vec3(0, 0, 0), 1, 1)\n",
+    "boris.push(particle, 0.1, mesh)\n",
+    "assert abs(particle.velocity.z - 0.1) < 1e-12\n",
+    "assert particle.position.z == 9\n",
+    "print('粒子 z 速度会更新，但 z 位置保持不变。')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
 <end of output>
-Test time =   0.02 sec
+Test time =   3.33 sec
 ----------------------------------------------------------
 Test Passed.
-"test_02_grid_field_push" end time: Oct 09 12:14 CEST
-"test_02_grid_field_push" time elapsed: 00:00:00
+"test_02_grid_field_push" end time: Oct 16 11:06 CEST
+"test_02_grid_field_push" time elapsed: 00:00:03
 ----------------------------------------------------------
 
 3/6 Testing: test_03_cic
 3/6 Test: test_03_cic
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.py"
+Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_03_cic" start time: Oct 09 12:14 CEST
+"test_03_cic" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
+[NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_03_cic.ipynb to notebook
+/home/ruijing/.venv/lib/python3.14/site-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "33ce6008",
+   "metadata": {},
+   "source": [
+    "# 2D CIC 插值测试\n",
+    "粒子周围在 x-y 平面有四个网格点，四个权重相加应为 1。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0c3fe80b",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-10-16T09:06:19.264004Z",
+     "iopub.status.busy": "2026-10-16T09:06:19.263761Z",
+     "iopub.status.idle": "2026-10-16T09:06:19.278096Z",
+     "shell.execute_reply": "2026-10-16T09:06:19.275535Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "CIC 四点权重和插值通过。\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os, sys\n",
+    "sys.path.insert(0, os.environ['BORIS_MODULE_DIR'])\n",
+    "import boris_cpp as boris\n",
+    "\n",
+    "grid = boris.PeriodicGrid(boris.Vec3(0, 0, 0), boris.Vec3(4, 4, 0), (4, 4, 1))\n",
+    "point = boris.Vec3(1.25, 2.5, 99)\n",
+    "weights = boris.cic_weights(grid, point)\n",
+    "assert len(weights) == 4\n",
+    "assert abs(sum(item.weight for item in weights) - 1.0) < 1e-12\n",
+    "assert [item.cell for item in weights] == [6, 7, 10, 11]\n",
+    "assert all(item.weight >= 0 for item in weights)\n",
+    "\n",
+    "# 用每个节点的 (x, y, 1) 作为数据；线性插值应还原粒子所在坐标。\n",
+    "values = [boris.Vec3(i // 4, i % 4, 1) for i in range(grid.size())]\n",
+    "value = boris.interpolate_cic(grid, values, point)\n",
+    "assert abs(value.x - 1.25) < 1e-12\n",
+    "assert abs(value.y - 2.5) < 1e-12\n",
+    "assert abs(value.z - 1.0) < 1e-12\n",
+    "print('CIC 四点权重和插值通过。')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
 <end of output>
-Test time =   0.02 sec
+Test time =   3.23 sec
 ----------------------------------------------------------
 Test Passed.
-"test_03_cic" end time: Oct 09 12:14 CEST
-"test_03_cic" time elapsed: 00:00:00
+"test_03_cic" end time: Oct 16 11:06 CEST
+"test_03_cic" time elapsed: 00:00:03
 ----------------------------------------------------------
 
 4/6 Testing: test_04_prediction_first
 4/6 Test: test_04_prediction_first
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.py"
+Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_04_prediction_first" start time: Oct 09 12:14 CEST
+"test_04_prediction_first" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
+[NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_04_prediction_first.ipynb to notebook
+/home/ruijing/.venv/lib/python3.14/site-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "217b1a37",
+   "metadata": {},
+   "source": [
+    "# 2D3V 第一次预测测试\n",
+    "检查场更新、粒子 z 速度推进，以及粒子 z 位置保持不变。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "a42fdd58",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-10-16T09:06:22.494480Z",
+     "iopub.status.busy": "2026-10-16T09:06:22.494029Z",
+     "iopub.status.idle": "2026-10-16T09:06:22.508938Z",
+     "shell.execute_reply": "2026-10-16T09:06:22.507375Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "第一次预测的 2D3V 行为通过。\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os, sys\n",
+    "sys.path.insert(0, os.environ['BORIS_MODULE_DIR'])\n",
+    "import boris_cpp as boris\n",
+    "\n",
+    "grid = boris.PeriodicGrid(boris.Vec3(0, 0, 0), boris.Vec3(4, 4, 0), (4, 4, 1))\n",
+    "data = boris.PredictionInput()\n",
+    "data.electric = [boris.Vec3(0, 0, 1) for _ in range(grid.size())]\n",
+    "data.magnetic = [boris.Vec3(0, 0, 0) for _ in range(grid.size())]\n",
+    "particle = boris.Particle(boris.Vec3(1, 1, 7), boris.Vec3(0, 0, 0), 1, 1)\n",
+    "data.particles = [particle]\n",
+    "\n",
+    "result = boris.predict_first(grid, data, 0.1)\n",
+    "assert len(result.magnetic_next) == grid.size()\n",
+    "assert all(b.x == 0 and b.y == 0 and b.z == 0 for b in result.magnetic_next)\n",
+    "moved = result.particles_next[0]\n",
+    "assert abs(moved.velocity.z - 0.1) < 1e-12\n",
+    "assert moved.position.z == 7\n",
+    "assert abs(sum(result.density_next) - 1.0) < 1e-12\n",
+    "print('第一次预测的 2D3V 行为通过。')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
 <end of output>
-Test time =   0.02 sec
+Test time =   3.24 sec
 ----------------------------------------------------------
 Test Passed.
-"test_04_prediction_first" end time: Oct 09 12:14 CEST
-"test_04_prediction_first" time elapsed: 00:00:00
+"test_04_prediction_first" end time: Oct 16 11:06 CEST
+"test_04_prediction_first" time elapsed: 00:00:03
 ----------------------------------------------------------
 
 5/6 Testing: test_05_prediction_second
 5/6 Test: test_05_prediction_second
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.py"
+Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_05_prediction_second" start time: Oct 09 12:14 CEST
+"test_05_prediction_second" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
+[NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_05_prediction_second.ipynb to notebook
+/home/ruijing/.venv/lib/python3.14/site-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "eeb1c8a0",
+   "metadata": {},
+   "source": [
+    "# 2D3V 第二次预测测试\n",
+    "第二次预测从第一次预测得到的粒子状态继续推进。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "0de4742d",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-10-16T09:06:25.714840Z",
+     "iopub.status.busy": "2026-10-16T09:06:25.714521Z",
+     "iopub.status.idle": "2026-10-16T09:06:25.729358Z",
+     "shell.execute_reply": "2026-10-16T09:06:25.726712Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "第二次预测从第一次结果继续推进，通过。\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os, sys\n",
+    "sys.path.insert(0, os.environ['BORIS_MODULE_DIR'])\n",
+    "import boris_cpp as boris\n",
+    "\n",
+    "grid = boris.PeriodicGrid(boris.Vec3(0, 0, 0), boris.Vec3(4, 4, 0), (4, 4, 1))\n",
+    "data = boris.PredictionInput()\n",
+    "data.electric = [boris.Vec3(0, 0, 1) for _ in range(grid.size())]\n",
+    "data.magnetic = [boris.Vec3(0, 0, 0) for _ in range(grid.size())]\n",
+    "data.particles = [boris.Particle(boris.Vec3(1, 1, 5), boris.Vec3(0, 0, 0), 1, 1)]\n",
+    "\n",
+    "first = boris.predict_first(grid, data, 0.1)\n",
+    "second = boris.predict_second(grid, data, first, 0.1)\n",
+    "particle = second.particles_next[0]\n",
+    "assert abs(particle.velocity.z - 0.2) < 1e-12\n",
+    "assert particle.position.z == 5\n",
+    "assert len(second.density_next) == grid.size()\n",
+    "print('第二次预测从第一次结果继续推进，通过。')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
 <end of output>
-Test time =   0.02 sec
+Test time =   3.22 sec
 ----------------------------------------------------------
 Test Passed.
-"test_05_prediction_second" end time: Oct 09 12:14 CEST
-"test_05_prediction_second" time elapsed: 00:00:00
+"test_05_prediction_second" end time: Oct 16 11:06 CEST
+"test_05_prediction_second" time elapsed: 00:00:03
 ----------------------------------------------------------
 
 6/6 Testing: test_06_correction
 6/6 Test: test_06_correction
-Command: "/home/ruijing/.venv/bin/python3" "/home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.py"
+Command: "/home/ruijing/.venv/bin/python3" "-m" "nbconvert" "--to" "notebook" "--execute" "--stdout" "/home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.ipynb"
 Directory: /home/ruijing/M2/HPC/boris_cpp/build
-"test_06_correction" start time: Oct 09 12:14 CEST
+"test_06_correction" start time: Oct 16 11:06 CEST
 Output:
 ----------------------------------------------------------
+[NbConvertApp] Converting notebook /home/ruijing/M2/HPC/boris_cpp/tests/test_06_correction.ipynb to notebook
+/home/ruijing/.venv/lib/python3.14/site-packages/nbformat/validator.py:434: MissingIDFieldWarning: Cell is missing an id field, this will become a hard error in future nbformat versions. You may want to use `normalize()` on your notebooks before validations (available since nbformat 5.1.4). Previous versions of nbformat are fixing this issue transparently, and will stop doing so in the future.
+  _validate(nbdict, ref, version, version_minor, relax_add_props)
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "6bc114c0",
+   "metadata": {},
+   "source": [
+    "# 2D3V 场校正测试\n",
+    "均匀场的空间导数为零，因此磁场保持不变，零速度和零压力时电场为零。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "4e65863a",
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2026-10-16T09:06:29.031886Z",
+     "iopub.status.busy": "2026-10-16T09:06:29.031488Z",
+     "iopub.status.idle": "2026-10-16T09:06:29.056565Z",
+     "shell.execute_reply": "2026-10-16T09:06:29.054129Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "均匀场校正通过。\n",
+      "二维 curl 和 Laplacian 通过。\n"
+     ]
+    }
+   ],
+   "source": [
+    "import os, sys\n",
+    "sys.path.insert(0, os.environ['BORIS_MODULE_DIR'])\n",
+    "import boris_cpp as boris\n",
+    "\n",
+    "grid = boris.PeriodicGrid(boris.Vec3(0, 0, 0), boris.Vec3(4, 4, 0), (4, 4, 1))\n",
+    "data = boris.CorrectionInput()\n",
+    "data.magnetic = [boris.Vec3(0, 0, 2) for _ in range(grid.size())]\n",
+    "data.electric_half = [boris.Vec3(0, 0, 0) for _ in range(grid.size())]\n",
+    "data.density = [1.0 for _ in range(grid.size())]\n",
+    "data.bulk_velocity = [boris.Vec3(0, 0, 0) for _ in range(grid.size())]\n",
+    "data.electron_pressure = [boris.Vec3(0, 0, 0) for _ in range(grid.size())]\n",
+    "\n",
+    "result = boris.correct_fields(grid, data, 0.1, 0.0, 0.0)\n",
+    "assert len(result.magnetic) == grid.size()\n",
+    "assert len(result.electric) == grid.size()\n",
+    "assert all(b.z == 2 for b in result.magnetic)\n",
+    "assert all(e.x == 0 and e.y == 0 and e.z == 0 for e in result.electric)\n",
+    "print('均匀场校正通过。')\n",
+    "\n",
+    "# 检查二维 curl：只随 x 变化的 Fz 会产生 y 方向 curl。\n",
+    "field = [boris.Vec3(0, 0, [0, 1, 0, -1][i // 4]) for i in range(grid.size())]\n",
+    "curl = boris.curl_periodic(grid, field)\n",
+    "assert abs(curl[0].y + 1.0) < 1e-12\n",
+    "assert abs(curl[8].y - 1.0) < 1e-12\n",
+    "\n",
+    "# 法拉第方程：B 新 = B 旧 - dt * curl(E)。\n",
+    "magnetic_next = boris.advance_magnetic_faraday(\n",
+    "    grid, [boris.Vec3(0, 0, 0) for _ in range(grid.size())], field, 0.1\n",
+    ")\n",
+    "assert abs(magnetic_next[0].y - 0.1) < 1e-12\n",
+    "assert abs(magnetic_next[8].y + 0.1) < 1e-12\n",
+    "\n",
+    "# Laplacian 只沿 x、y 计算；这个场只沿 x 变化。\n",
+    "lap = boris.laplacian_periodic(grid, field)\n",
+    "assert abs(lap[4].z + 2.0) < 1e-12\n",
+    "print('二维 curl 和 Laplacian 通过。')"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
 <end of output>
-Test time =   0.02 sec
+Test time =   3.39 sec
 ----------------------------------------------------------
 Test Passed.
-"test_06_correction" end time: Oct 09 12:14 CEST
-"test_06_correction" time elapsed: 00:00:00
+"test_06_correction" end time: Oct 16 11:06 CEST
+"test_06_correction" time elapsed: 00:00:03
 ----------------------------------------------------------
 
-End testing: Oct 09 12:14 CEST
+End testing: Oct 16 11:06 CEST

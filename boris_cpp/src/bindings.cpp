@@ -1,13 +1,20 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "boris/core/grid_utils.hpp"
 #include "boris/mechanisms/boris.hpp"
-#include "boris/simulation/prediction.hpp"
+#include "boris/mechanisms/cic.hpp"
+#include "boris/simulation/correction.hpp"
+#include "boris/simulation/faraday.hpp"
+#include "boris/simulation/field_operators.hpp"
+#include "boris/simulation/prediction_first.hpp"
+#include "boris/simulation/prediction_second.hpp"
+#include "boris/simulation/simulation_types.hpp"
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(boris_cpp, module) {
-    module.doc() = "Boris particle pusher with a uniform mesh";
+    module.doc() = "2D3V Boris particle pusher with an x-y periodic grid";
 
     py::class_<boris::Vec3>(module, "Vec3")
         .def(py::init<double, double, double>())
@@ -51,7 +58,26 @@ PYBIND11_MODULE(boris_cpp, module) {
 
     py::class_<boris::PeriodicGrid>(module, "PeriodicGrid")
         .def(py::init<boris::Vec3, boris::Vec3, std::array<int, 3>>(), py::arg("origin"),
-             py::arg("extent"), py::arg("cells"));
+             py::arg("extent"), py::arg("cells"))
+        .def_readonly("origin", &boris::PeriodicGrid::origin)
+        .def_readonly("extent", &boris::PeriodicGrid::extent)
+        .def_readonly("cells", &boris::PeriodicGrid::cells)
+        .def("size", &boris::PeriodicGrid::size)
+        .def("spacing", &boris::PeriodicGrid::spacing)
+        .def("wrap_index", &boris::PeriodicGrid::wrap_index, py::arg("index"), py::arg("count"))
+        .def("index", &boris::PeriodicGrid::index, py::arg("i"), py::arg("j"), py::arg("k"))
+        .def("wrap_position", &boris::PeriodicGrid::wrap_position, py::arg("position"));
+    py::class_<boris::CicPointWeight>(module, "CicPointWeight")
+        .def_readonly("cell", &boris::CicPointWeight::cell)
+        .def_readonly("weight", &boris::CicPointWeight::weight);
+    module.def("cic_weights", &boris::cic_weights, py::arg("grid"), py::arg("position"));
+    module.def("interpolate_cic", &boris::interpolate_cic, py::arg("grid"), py::arg("values"),
+               py::arg("position"));
+    module.def("curl_periodic", &boris::curl_periodic, py::arg("grid"), py::arg("field"));
+    module.def("laplacian_periodic", &boris::laplacian_periodic, py::arg("grid"),
+               py::arg("field"));
+    module.def("advance_magnetic_faraday", &boris::advance_magnetic_faraday,
+               py::arg("grid"), py::arg("magnetic"), py::arg("electric"), py::arg("dt"));
     py::class_<boris::PredictionInput>(module, "PredictionInput")
         .def(py::init<>())
         .def_readwrite("electric", &boris::PredictionInput::electric)
