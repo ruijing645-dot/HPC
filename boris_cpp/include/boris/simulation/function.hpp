@@ -18,6 +18,7 @@ struct DepositedMoments {
 // CIC-deposit particle weights and weighted velocities, then normalize the
 // velocity moment by density to obtain the grid bulk velocity.
 // N^n=sum 
+// here particle weight is one, while particle.charge is defined as one, thus particle weight used charge
 inline DepositedMoments deposit_particle_moments(const PeriodicGrid& grid,
                                                  const std::vector<Particle>& particles) {
     DepositedMoments result{std::vector<double>(grid.size(), 0.0),
