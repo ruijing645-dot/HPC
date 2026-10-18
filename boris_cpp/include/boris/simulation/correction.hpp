@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "boris/simulation/faraday.hpp"
+#include "boris/simulation/function.hpp"
 #include "boris/simulation/simulation_types.hpp"
 
 namespace boris {
@@ -20,7 +20,7 @@ inline CorrectionResult correct_fields(const PeriodicGrid& grid, const Correctio
     }
 
     CorrectionResult result;
-    result.magnetic = advance_magnetic_faraday(grid, input.magnetic, input.electric_half, dt);
+    result.magnetic = faraday(grid, input.magnetic, input.electric_half, dt);
     const std::vector<Vec3> curl_b = curl_periodic(grid, result.magnetic);
     const std::vector<Vec3> lap_b = laplacian_periodic(grid, result.magnetic);
     result.electric.resize(count);

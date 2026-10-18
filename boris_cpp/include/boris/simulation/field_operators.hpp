@@ -31,6 +31,21 @@ inline std::vector<Vec3> curl_periodic(const PeriodicGrid& grid,
     return result;
 }
 
+inline std::vector<Vec3> gradient_periodic(const PeriodicGrid& grid,
+                                           const std::vector<double>& field) {
+    if (field.size() != grid.size()) throw std::invalid_argument("field array must match grid size");
+    const Vec3 dx = grid.spacing();
+    std::vector<Vec3> result(grid.size());
+    for (int i = 0; i < grid.cells[0]; ++i) {
+        for (int j = 0; j < grid.cells[1]; ++j) {
+            const std::size_t c = grid.index(i, j, 0);
+            result[c] = {(field[grid.index(i + 1, j, 0)] - field[grid.index(i - 1, j, 0)]) / (2.0 * dx.x),
+                         (field[grid.index(i, j + 1, 0)] - field[grid.index(i, j - 1, 0)]) / (2.0 * dx.y), 0.0};
+        }
+    }
+    return result;
+}
+
 // Component-wise Laplacian in the x-y plane; z derivatives are zero.
 // \partial^2 f/\partial y^2 = (f_{i,j+1}-2 f_{i,j}+f_{i,j-1})/\nabla^2 y^2
 inline std::vector<Vec3> laplacian_periodic(const PeriodicGrid& grid,

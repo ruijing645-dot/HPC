@@ -62,7 +62,9 @@
             a. curl_periodic()：计算矢量场的 旋度curl 即 \nabla x F
             b.laplacian_periodic(): Laplacian \nabla^2
             central finite difference（二阶中心差分）
-            中心差分公式为：
+        2. simulation_types.hpp:
+            define all strucs types are used in prediction and correction
+        3. 
 6. simulation headers:
     - simulation_types.hpp：共享输入和输出结构
     - faraday.hpp：法拉第方程的磁场更新

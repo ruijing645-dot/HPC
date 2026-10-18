@@ -1,9 +1,11 @@
 #pragma once
 
 #include <stdexcept>
+#include <cmath>
 
 #include "boris/mechanisms/cic.hpp"
-#include "boris/simulation/faraday.hpp"
+#include "boris/simulation/constants.hpp"
+#include "boris/simulation/function.hpp"
 #include "boris/simulation/simulation_types.hpp"
 
 namespace boris {
@@ -11,15 +13,15 @@ namespace boris {
 // First prediction: update B with Faraday's law, push particles, and deposit
 // charge density and bulk velocity on the 2D grid.
 inline PredictionResult predict_first(const PeriodicGrid& grid, const PredictionInput& input,
-                                      double dt) {
+                                      double dt,
+                                      const SimulationConstants& constants = default_constants) {
     if (!(dt > 0.0)) throw std::invalid_argument("timestep must be positive");
     if (input.electric.size() != grid.size() || input.magnetic.size() != grid.size()) {
         throw std::invalid_argument("electric and magnetic arrays must match grid size");
     }
 
     PredictionResult result;
-    result.magnetic_next = advance_magnetic_faraday(grid, input.magnetic, input.electric, dt);
-    result.electric_half = input.electric;
+    result.magnetic_next = faraday(grid, input.magnetic, input.electric, dt);
     result.particles_next = input.particles;
     result.density_next.assign(grid.size(), 0.0);
     result.bulk_velocity_next.assign(grid.size(), Vec3{});
@@ -48,6 +50,10 @@ inline PredictionResult predict_first(const PeriodicGrid& grid, const Prediction
                                                        1.0 / result.density_next[cell]);
         }
     }
+    std::vector<double> number_density = result.density_next;
+    for (double& value : number_density) value = std::abs(value);
+    result.electric_half = compute_electric(grid, input.magnetic, number_density,
+                                            result.bulk_velocity_next, constants);
     return result;
 }
 

@@ -5,8 +5,10 @@
 #include "boris/mechanisms/boris.hpp"
 #include "boris/mechanisms/cic.hpp"
 #include "boris/simulation/correction.hpp"
-#include "boris/simulation/faraday.hpp"
+#include "boris/simulation/constants.hpp"
+#include "boris/simulation/function.hpp"
 #include "boris/simulation/field_operators.hpp"
+#include "boris/simulation/function.hpp"
 #include "boris/simulation/prediction_first.hpp"
 #include "boris/simulation/prediction_second.hpp"
 #include "boris/simulation/simulation_types.hpp"
@@ -76,8 +78,17 @@ PYBIND11_MODULE(boris_cpp, module) {
     module.def("curl_periodic", &boris::curl_periodic, py::arg("grid"), py::arg("field"));
     module.def("laplacian_periodic", &boris::laplacian_periodic, py::arg("grid"),
                py::arg("field"));
-    module.def("advance_magnetic_faraday", &boris::advance_magnetic_faraday,
+    module.def("faraday", &boris::faraday,
                py::arg("grid"), py::arg("magnetic"), py::arg("electric"), py::arg("dt"));
+    py::class_<boris::SimulationConstants>(module, "SimulationConstants")
+        .def(py::init<double, double, double>(), py::arg("electron_temperature") = 1.0,
+             py::arg("resistivity") = 0.0, py::arg("viscosity") = 0.0)
+        .def_readwrite("electron_temperature", &boris::SimulationConstants::electron_temperature)
+        .def_readwrite("resistivity", &boris::SimulationConstants::resistivity)
+        .def_readwrite("viscosity", &boris::SimulationConstants::viscosity);
+    module.def("compute_electric", &boris::compute_electric, py::arg("grid"), py::arg("magnetic"),
+               py::arg("density"), py::arg("bulk_velocity"),
+               py::arg("constants") = boris::default_constants);
     py::class_<boris::PredictionInput>(module, "PredictionInput")
         .def(py::init<>())
         .def_readwrite("electric", &boris::PredictionInput::electric)
@@ -89,9 +100,10 @@ PYBIND11_MODULE(boris_cpp, module) {
         .def_readonly("particles_next", &boris::PredictionResult::particles_next)
         .def_readonly("density_next", &boris::PredictionResult::density_next)
         .def_readonly("bulk_velocity_next", &boris::PredictionResult::bulk_velocity_next);
-    module.def("predict_first", &boris::predict_first, py::arg("grid"), py::arg("input"), py::arg("dt"));
+    module.def("predict_first", &boris::predict_first, py::arg("grid"), py::arg("input"), py::arg("dt"),
+               py::arg("constants") = boris::default_constants);
     module.def("predict_second", &boris::predict_second, py::arg("grid"), py::arg("input"),
-               py::arg("first"), py::arg("dt"));
+               py::arg("first"), py::arg("dt"), py::arg("constants") = boris::default_constants);
     py::class_<boris::CorrectionInput>(module, "CorrectionInput")
         .def(py::init<>())
         .def_readwrite("magnetic", &boris::CorrectionInput::magnetic)
