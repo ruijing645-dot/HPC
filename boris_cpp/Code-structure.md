@@ -60,11 +60,13 @@
 ### simulation
         1. field_operator.hpp: 
             a. curl_periodic()：计算矢量场的 旋度curl 即 \nabla x F
-            b.laplacian_periodic(): Laplacian \nabla^2
+            b. gradient_periodic() 用中心差分近似
+            c.laplacian_periodic(): Laplacian \nabla^2
             central finite difference（二阶中心差分）
         2. simulation_types.hpp:
             define all strucs types are used in prediction and correction
-        3. 
+        3. function 包含法拉第以及E的方程
+        
 6. simulation headers:
     - simulation_types.hpp：共享输入和输出结构
     - faraday.hpp：法拉第方程的磁场更新

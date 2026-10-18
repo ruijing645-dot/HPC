@@ -30,7 +30,8 @@ inline std::vector<Vec3> curl_periodic(const PeriodicGrid& grid,
     }
     return result;
 }
-
+// Here periodic - grid.index change let index warp into the box if it is outside box
+// 中心差分近似
 inline std::vector<Vec3> gradient_periodic(const PeriodicGrid& grid,
                                            const std::vector<double>& field) {
     if (field.size() != grid.size()) throw std::invalid_argument("field array must match grid size");
